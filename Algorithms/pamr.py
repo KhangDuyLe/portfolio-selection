@@ -22,7 +22,7 @@ class PAMR(Algo):
         self.eps = eps
         self.C = C
         self.variant = variant
-        print(self.variant)
+        # print(self.variant)
     
     def init_weights(self, m):
         return np.ones(m) / m

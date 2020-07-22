@@ -53,7 +53,7 @@ class Algo(object):
         self.init_step(X)
         for t, (_, x) in enumerate(X.iterrows()):
             # save weights
-            B.ix[t] = last_b
+            B.iloc[t] = last_b
 
             # keep initial weights for min_history
             # if t < min_history:
@@ -93,12 +93,12 @@ class Algo(object):
             # normalize prices so that they start with 1.
             r = {}
             for name, s in S.iteritems():
-                init_val = s.ix[s.first_valid_index()]
+                init_val = s.iloc[s.first_valid_index()]
                 r[name] = s / init_val
             X = pd.DataFrame(r)
 
             if replace_missing:
-                X.ix[0] = 1.
+                X.iloc[0] = 1.
                 X = X.fillna(method='ffill')
 
             return X

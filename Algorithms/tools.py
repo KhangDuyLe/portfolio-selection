@@ -1,5 +1,6 @@
 import numpy as np
 import pandas as pd
+import os
 
     
 def simplex_proj(y):
@@ -63,3 +64,34 @@ def freq(ix):
         return len(ix) / float(days) * 365.
     else:
         return 252.
+
+def create_folder(path):
+    try:
+        os.mkdir(path)
+    except OSError:
+        print ("Creation of the directory %s failed" % path)
+    else:
+        print ("Successfully created the directory %s " % path)
+
+def check_data(file1, file2, shape):
+    # path = os.getcwd()
+
+    with open(file1, "r") as f:
+        array = []
+        for line in f:
+            # temp = [float(x) for x in line.split("   ")]
+            # array.append(temp)
+            t = line.split("  ")
+            for i in range(1, len(t)-1):
+                # print(t[i])
+                array.append(float(t[i]))
+            array.append(float(t[len(t)-1].replace('\n','')) )
+    matrix = np.reshape(array, shape)
+
+    data = pd.read_pickle(file2)
+    S =data 
+    X = S / S.shift(1).fillna(method='ffill')
+    X.iloc[0,:] = S.iloc[0,:]
+
+    print(file1,  ((X.to_numpy() - matrix)**2).sum() ) 
+
